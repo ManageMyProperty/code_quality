@@ -1,6 +1,11 @@
 # Standards
 
-This doc walks through the desired app directory structure, describing the purpose of each type of object.
+## Definitions
+--------------------------------------
+
+* "Business Logic" -> any logic which accesses or affects the data model.  (Ex. Logging in, adding a user, contacting a lead, etc.)
+
+# Object Types & Purposes
 
 ## Controllers
 --------------------------------------
