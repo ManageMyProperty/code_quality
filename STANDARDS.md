@@ -21,18 +21,25 @@ URL mapping for the app, providing a user-facing interface for manipulating the 
 ```ruby
 class ObjectsController
   respond_to :html, :json
+  before_filter :find_model
 
   def index
     @objects = Objects.all
+    respond_with(@objects)
   end
 
   def create
     @object = Object.create(object_params)
+    respond_with(@object)
   end
 
   # ...
 
   private
+
+    def find_model
+      @object = Object.find(params[:id]) if params[:id].present?
+    end
 
     def object_params
       params.require(:object).allow(:something, :another_field)
