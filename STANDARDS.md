@@ -17,6 +17,29 @@ URL mapping for the app, providing a user-facing interface for manipulating the 
 #### Don'ts
 * Write business logic in the controller
 
+#### Example
+```ruby
+class ObjectsController
+  respond_to :html, :json
+
+  def index
+    @objects = Objects.all
+  end
+
+  def create
+    @object = Object.create(object_params)
+  end
+
+  # ...
+
+  private
+
+    def object_params
+      params.require(:object).allow(:something, :another_field)
+    end
+end
+```
+
 ## Decorators
 Dressing up the views for user consumption.
 
