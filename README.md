@@ -26,6 +26,18 @@ module Taggable
 end
 ```
 
+##### Usage
+```ruby
+# in the Active Record model
+class Lead < ActiveRecord::Base
+  include Taggable
+end
+
+# in some other context
+lead = Lead.find(5)
+lead.tag_names # => the tag names from Taggable
+```
+
 ### 2. Service Objects
 Type: Class
 
@@ -53,6 +65,23 @@ class UserAuthenticator
       @user
     else
       false
+    end
+  end
+end
+```
+
+##### Usage
+```ruby
+class SessionsController < ApplicationController
+  def create
+    user = User.where(email: params[:email]).first
+
+    if UserAuthenticator.new(user).authenticate(params[:password])
+      self.current_user = user
+      redirect_to dashboard_path
+    else
+      flash[:alert] = "Login failed."
+      render "new"
     end
   end
 end
@@ -104,6 +133,21 @@ private
   def persist!
     @company = Company.create!(name: company_name)
     @user = @company.users.create!(name: name, email: email)
+  end
+end
+```
+
+##### Usage
+```ruby
+class SignupsController < ApplicationController
+  def create
+    @signup = Signup.new(params[:signup])
+
+    if @signup.save
+      redirect_to dashboard_path
+    else
+      render "new"
+    end
   end
 end
 ```
